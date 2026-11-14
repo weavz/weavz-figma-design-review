@@ -1,4 +1,20 @@
-# Figma Design Review
+# Figma MCP agent with PydanticAI: Figma Design Review
+
+<!-- weavz:discovery:start -->
+
+Use Figma with PydanticAI through Weavz MCP. This figma design review example returns a report from bounded app reads with source references.
+
+**Framework:** PydanticAI · **Language:** Python · **MCP modes:** Tool Mode and Code Mode
+
+Use another framework:
+
+- [Figma MCP with PydanticAI Python](https://github.com/weavz/weavz-pydantic-ai/blob/main/docs/app-recipes.md#figma-mcp-with-pydanticai-python)
+- [Figma MCP with Agno Python](https://github.com/weavz/weavz-agno/blob/main/docs/app-recipes.md#figma-mcp-with-agno-python)
+- [Figma MCP with smolagents Python](https://github.com/weavz/weavz-smolagents/blob/main/docs/app-recipes.md#figma-mcp-with-smolagents-python)
+
+[MCP app and framework directory](https://github.com/weavz/mcp-examples/blob/main/docs/integrations.md) · [All examples](https://github.com/weavz/mcp-examples) · [Weavz MCP guide](https://weavz.io/docs/guides/agent-framework-examples)
+
+<!-- weavz:discovery:end -->
 
 Review the requested Figma outline, then inspect selected nodes for bounded layout and accessibility concerns. Cite findings to nodes and distinguish measured properties from recommendations.
 
