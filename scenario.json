@@ -1,0 +1,120 @@
+{
+  "id": "figma-design-review",
+  "title": "Figma Design Review",
+  "prompt": "Review the requested Figma outline, then inspect selected nodes for bounded layout and accessibility concerns. Cite findings to nodes and distinguish measured properties from recommendations.",
+  "instructions": "Start with get_file_outline using the supplied file key and bounded node count. Inspect only selected returned IDs with get_node_design_context; keep depth at 1 or 2 and pass nodeIds as the action comma-separated string. Do not imply review of the whole design system, resolve all variables, post comments, or modify the file. Treat fixture measurements as synthetic and cite each finding to a returned node ID. Include a URL only if the tool returned one; do not invent a clickable link.",
+  "fixture_summary": "A synthetic product settings outline contains a mobile primary-action frame and desktop account-summary section. The selected-node helper returns bounded details including one small touch target and one text-contrast concern.",
+  "inputs": {
+    "fileKey": "sample-product-settings-file",
+    "nodeIds": "1:10,1:20",
+    "review_focus": "touch target size, text contrast, visible layout constraints"
+  },
+  "steps": [
+    {
+      "id": "outline_file",
+      "alias": "product_design",
+      "integration": "figma",
+      "action": "get_file_outline",
+      "tool": "product_design__get_file_outline",
+      "arguments": {
+        "fileKey": "sample-product-settings-file",
+        "depth": 2,
+        "maxNodes": 20
+      },
+      "records": [
+        {
+          "id": "figma-node-1-10",
+          "app": "Figma",
+          "title": "Mobile settings / Save changes",
+          "detail": "Outline entry: primary-action frame, node 1:10, 390 by 844 px. Synthetic file outline.",
+          "url": "https://example.com/design/sample-product-settings-file?node-id=1%3A10",
+          "file_key": "sample-product-settings-file",
+          "node_id": "1:10",
+          "node_type": "FRAME"
+        },
+        {
+          "id": "figma-node-1-20",
+          "app": "Figma",
+          "title": "Desktop settings / Account summary",
+          "detail": "Outline entry: account-summary section, node 1:20, 640 by 280 px. Synthetic file outline.",
+          "url": "https://example.com/design/sample-product-settings-file?node-id=1%3A20",
+          "file_key": "sample-product-settings-file",
+          "node_id": "1:20",
+          "node_type": "SECTION"
+        }
+      ]
+    },
+    {
+      "id": "inspect_selected_nodes",
+      "alias": "product_design",
+      "integration": "figma",
+      "action": "get_node_design_context",
+      "tool": "product_design__get_node_design_context",
+      "arguments": {
+        "fileKey": "sample-product-settings-file",
+        "nodeIds": "1:10,1:20",
+        "depth": 1
+      },
+      "records": [
+        {
+          "id": "figma-node-1-10",
+          "app": "Figma",
+          "title": "Mobile settings / Save changes",
+          "detail": "Selected-node context: button bounds 320 by 36 px; label contrast 4.8:1. Synthetic fixture measurements.",
+          "url": "https://example.com/design/sample-product-settings-file?node-id=1%3A10",
+          "file_key": "sample-product-settings-file",
+          "node_id": "1:10",
+          "node_type": "FRAME",
+          "target_size_px": 36,
+          "touch_target_review": "below-44px",
+          "contrast_review": "meets-4.5-to-1",
+          "review_flag": "needs-review",
+          "issue": "small-touch-target"
+        },
+        {
+          "id": "figma-node-1-20",
+          "app": "Figma",
+          "title": "Desktop settings / Account summary",
+          "detail": "Selected-node context: label contrast is 3.7:1 on the documented surface. Synthetic fixture measurements.",
+          "url": "https://example.com/design/sample-product-settings-file?node-id=1%3A20",
+          "file_key": "sample-product-settings-file",
+          "node_id": "1:20",
+          "node_type": "SECTION",
+          "target_size_px": 0,
+          "touch_target_review": "not-applicable",
+          "contrast_review": "below-4.5-to-1",
+          "review_flag": "blocker",
+          "issue": "low-text-contrast"
+        }
+      ]
+    }
+  ],
+  "metrics": [
+    {
+      "name": "nodes_below_44px_touch_target",
+      "op": "count",
+      "where": {
+        "touch_target_review": "below-44px"
+      }
+    },
+    {
+      "name": "nodes_below_4_5_to_1_contrast",
+      "op": "count",
+      "where": {
+        "contrast_review": "below-4.5-to-1"
+      }
+    },
+    {
+      "name": "blocker_findings",
+      "op": "count",
+      "where": {
+        "review_flag": "blocker"
+      }
+    }
+  ],
+  "expected_metrics": {
+    "nodes_below_44px_touch_target": 1,
+    "nodes_below_4_5_to_1_contrast": 1,
+    "blocker_findings": 1
+  }
+}
